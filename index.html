@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        @keyframes matrix-fall {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            animation: matrix-fall linear infinite;
+            opacity: 0.7;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        a {
+            color: #00acee;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        a:hover {
+            color: #0077cc;
+        }
+        header {
+            padding: 20px;
+        }
+        img.profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px 0;
+            border: 2px solid white;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        audio {
+            margin-top: 20px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00acee;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 0 10px rgba(0, 172, 238, 0.5);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #0077cc;
+            box-shadow: 0 0 20px rgba(0, 172, 238, 0.8);
+        }
+        .birthday-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 172, 238, 0.1));
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .birthday-title {
+            font-size: 24px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 15px;
+        }
+        .birthday-date {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .countdown {
+            font-size: 28px;
+            color: #00acee;
+            margin: 15px 0;
+            text-shadow: 0 0 10px #00acee;
+            font-weight: bold;
+        }
+        .time-units {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .time-unit {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        .time-unit span {
+            display: block;
+            font-size: 24px;
+            color: #00ff00;
+            font-weight: bold;
+        }
+        .time-unit label {
+            display: block;
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .info-card {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.05), rgba(0, 172, 238, 0.05));
+            border: 2px solid #00ff00;
+            border-radius: 15px;
+            padding: 20px 30px;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+            font-size: 18px;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: #00ff00;
+            font-weight: bold;
+            text-shadow: 0 0 8px #00ff00;
+            letter-spacing: 1px;
+        }
+        .info-value {
+            color: #00acee;
+            text-shadow: 0 0 5px #00acee;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <header>
+        <h1 style="color: #00ff00; text-shadow: 0 0 10px #00ff00;">About Me</h1>
+    </header>
+    
+    <img 
+        src="https://graph.facebook.com/61581957341290/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" 
+        alt="Profile Picture" 
+        class="profile-pic"
+    />
+    
+    <div class="info-card">
+        <p class="info-item"><span class="info-label">Name:</span> <span class="info-value">Eugene Aguilar</span></p>
+        <p class="info-item"><span class="info-label">Age:</span> <span class="info-value"><span id="ageCountdown"></span></span></p>
+        <p class="info-item"><span class="info-label">Location:</span> <span class="info-value">Rosales San Luis, Pangasinan</span></p>
+        
+        <p class="info-item"><span class="info-label">Battery:</span> <span class="info-value"><span id="batteryLevel">Checking...</span></span></p>
+        <p class="info-item"><span class="info-label">IP Address:</span> <span class="info-value"><span id="ipAddress">Loading...</span></span></p>
+        <p class="info-item"><span class="info-label">Favorite Songs:</span> <span class="info-value">Shanti Dope - Iluna, La Ma Wave, Nateman</span></p>
+    </div>
+    
+    <div class="birthday-section">
+        <div class="birthday-title">🎂 Birthday Countdown 🎂</div>
+        <div class="birthday-date">Next Birthday: November 2, <span id="nextYear"></span></div>
+        <div class="countdown" id="countdownText"></div>
+        <div class="time-units">
+            <div class="time-unit">
+                <span id="days">0</span>
+                <label>Days</label>
+            </div>
+            <div class="time-unit">
+                <span id="hours">0</span>
+                <label>Hours</label>
+            </div>
+            <div class="time-unit">
+                <span id="minutes">0</span>
+                <label>Minutes</label>
+            </div>
+            <div class="time-unit">
+                <span id="seconds">0</span>
+                <label>Seconds</label>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <p>Follow me on:</p>
+        <p>
+            <a href="https://www.instagram.com/ur_bbf_eurix?igsh=MXBlYWpoczc3NzZjOA==" target="_blank" rel="noopener noreferrer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Instagram
+            </a>
+        </p>
+        <p>
+            <a href="https://www.facebook.com/share/19id42Y4SM/" target="_blank" rel="noopener noreferrer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                Facebook
+            </a>
+        </p>
+        <audio controls autoplay loop id="audioPlayer">
+            <source src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <br>
+        <button id="nextButton">Next</button>
+    </main>
+    
+    <footer>
+        <p>Thank you for visiting!</p>
+    </footer>
+
+    <script>
+        // Matrix Effect
+        function createMatrixEffect() {
+            const matrixBg = document.getElementById('matrixBg');
+            const chars = 'Eurix';
+            const numColumns = Math.floor(window.innerWidth / 25);
+            
+            for (let i = 0; i < numColumns; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = (i * 25) + 'px';
+                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                column.style.animationDelay = (Math.random() * 5) + 's';
+                
+                let text = '';
+                const height = Math.floor(Math.random() * 20 + 10);
+                for (let j = 0; j < height; j++) {
+                    text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+                }
+                column.innerHTML = text;
+                matrixBg.appendChild(column);
+            }
+        }
+        
+        createMatrixEffect();
+
+        // Birthday Countdown
+        function updateCountdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            
+            // Birthday is November 2, 2008
+            const birthDate = new Date(2008, 10, 2); // Month is 0-indexed, so 10 = November
+            let birthday = new Date(currentYear, 10, 2);
+            
+            // Calculate exact age
+            let age = currentYear - 2008;
+            
+            // If birthday hasn't happened yet this year, subtract 1
+            if (now.getMonth() < 10 || (now.getMonth() === 10 && now.getDate() < 2)) {
+                age--;
+            }
+            
+            document.getElementById('ageCountdown').textContent = age;
+            
+            // If birthday has passed this year, target next year
+            if (now > birthday) {
+                birthday = new Date(currentYear + 1, 10, 2);
+            }
+            
+            document.getElementById('nextYear').textContent = birthday.getFullYear();
+            
+            const diff = birthday - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdownText').textContent = '🎉 Happy Birthday! 🎉';
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            
+            if (days === 0) {
+                document.getElementById('countdownText').textContent = 'Birthday is TODAY! 🎂';
+            } else if (days === 1) {
+                document.getElementById('countdownText').textContent = 'Birthday is TOMORROW! 🎈';
+            } else {
+                document.getElementById('countdownText').textContent = `${days} days until birthday!`;
+            }
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Link Click Tracking
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.addEventListener('click', async function(e) {
+                try {
+                    await fetch('/track-click', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            url: this.href,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+                } catch (error) {
+                    console.error('Tracking error:', error);
+                }
+            });
+        });
+
+        // Battery API
+        if ('getBattery' in navigator) {
+            navigator.getBattery().then(function(battery) {
+                function updateBatteryStatus() {
+                    const level = Math.floor(battery.level * 100);
+                    const charging = battery.charging ? ' (Charging)' : '';
+                    document.getElementById('batteryLevel').textContent = level + '%' + charging;
+                }
+                
+                updateBatteryStatus();
+                battery.addEventListener('levelchange', updateBatteryStatus);
+                battery.addEventListener('chargingchange', updateBatteryStatus);
+            });
+        } else {
+            document.getElementById('batteryLevel').textContent = 'Not available';
+        }
+
+        // Fetch IP Address
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ipAddress').textContent = data.ip;
+            })
+            .catch(error => {
+                console.error('Error fetching IP:', error);
+                document.getElementById('ipAddress').textContent = 'Unable to fetch';
+            });
+
+        // Music Player
+        const audioPlayer = document.getElementById("audioPlayer");
+        const nextButton = document.getElementById("nextButton");
+
+        async function playRandomMusic() {
+            try {
+                const response = await fetch('/random-music');
+                if (response.ok) {
+                    const data = await response.json();
+                    const audioUrl = data.url;
+
+                    if (audioUrl) {
+                        const source = audioPlayer.querySelector("source");
+                        source.src = audioUrl;
+                        audioPlayer.load();
+                        audioPlayer.play().catch(e => console.error("Error playing audio:", e));
+                    } else {
+                        console.error("Audio URL not found in the response.");
+                    }
+                } else {
+                    console.error("Failed to fetch audio:", response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error("Error fetching audio:", error);
+            }
+        }
+
+        playRandomMusic();
+        nextButton.addEventListener("click", playRandomMusic);
+        audioPlayer.addEventListener('ended', playRandomMusic);
+    </script>
+</body>
+</html>
