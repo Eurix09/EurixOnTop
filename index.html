@@ -1,325 +1,1043 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
+    <title>Eugene Aguilar | About Me</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @keyframes matrix-fall {
-            0% {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .matrix-bg {
+        :root {
+            --primary: #00ff88;
+            --secondary: #00d4ff;
+            --accent: #ff00ff;
+            --dark: #0a0a0f;
+            --dark-light: #12121a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--dark);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        /* Matrix Canvas */
+        #matrix-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        /* Animated Background Gradient */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 255, 0.03) 0%, transparent 60%);
+            z-index: 1;
             pointer-events: none;
         }
 
-        .matrix-column {
-            position: absolute;
-            top: -100%;
-            font-family: 'Courier New', monospace;
-            font-size: 20px;
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
-            animation: matrix-fall linear infinite;
-            opacity: 0.7;
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            position: relative;
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up 8s infinite;
         }
-        a {
-            color: #00acee;
-            text-decoration: none;
+
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1);
+            }
+        }
+
+        /* Main Container */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        /* Profile Section */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .profile-ring {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            animation: spin 4s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-ring::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            background: var(--dark);
+            border-radius: 50%;
+        }
+
+        .profile-pic {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--dark);
+            z-index: 2;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.08);
+        }
+
+        .profile-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .profile-handle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 1s ease both;
+        }
+
+        .glass-card:nth-child(1) { animation-delay: 0.3s; }
+        .glass-card:nth-child(2) { animation-delay: 0.4s; }
+        .glass-card:nth-child(3) { animation-delay: 0.5s; }
+        .glass-card:nth-child(4) { animation-delay: 0.6s; }
+        .glass-card:nth-child(5) { animation-delay: 0.7s; }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 20px;
         }
-        a:hover {
-            color: #0077cc;
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 1px;
         }
-        header {
-            padding: 20px;
-        }
-        img.profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 20px 0;
-            border: 2px solid white;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        audio {
-            margin-top: 20px;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #00acee;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 0 10px rgba(0, 172, 238, 0.5);
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background-color: #0077cc;
-            box-shadow: 0 0 20px rgba(0, 172, 238, 0.8);
-        }
-        .birthday-section {
-            margin: 30px 0;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 172, 238, 0.1));
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .birthday-title {
-            font-size: 24px;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            margin-bottom: 15px;
-        }
-        .birthday-date {
-            font-size: 18px;
-            margin: 10px 0;
-        }
-        .countdown {
-            font-size: 28px;
-            color: #00acee;
-            margin: 15px 0;
-            text-shadow: 0 0 10px #00acee;
-            font-weight: bold;
-        }
-        .time-units {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-        .time-unit {
-            background: rgba(0, 255, 0, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-        }
-        .time-unit span {
-            display: block;
-            font-size: 24px;
-            color: #00ff00;
-            font-weight: bold;
-        }
-        .time-unit label {
-            display: block;
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 5px;
-        }
-        .info-card {
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.05), rgba(0, 172, 238, 0.05));
-            border: 2px solid #00ff00;
-            border-radius: 15px;
-            padding: 20px 30px;
-            max-width: 500px;
-            margin: 20px auto;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-        .info-item {
+
+        /* Info Rows */
+        .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
-            font-size: 18px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
-        .info-item:last-child {
+
+        .info-row:last-child {
             border-bottom: none;
         }
-        .info-label {
-            color: #00ff00;
-            font-weight: bold;
-            text-shadow: 0 0 8px #00ff00;
-            letter-spacing: 1px;
+
+        .info-row:hover {
+            padding-left: 15px;
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.05), transparent);
+            border-radius: 10px;
+            margin: 0 -10px;
+            padding-right: 25px;
         }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+        }
+
         .info-value {
-            color: #00acee;
-            text-shadow: 0 0 5px #00acee;
+            color: #fff;
             font-weight: 500;
+            text-align: right;
+            max-width: 60%;
+        }
+
+        .info-value.highlight {
+            color: var(--secondary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .info-value.battery {
+            color: var(--primary);
+        }
+
+        .info-value.ip {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            color: #ffd700;
+        }
+
+        /* Tags */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            transform: translateY(-3px) scale(1.05);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 255, 0.2));
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Birthday Countdown */
+        .countdown-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .countdown-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .countdown-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .countdown-date span {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .countdown-message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .time-box {
+            background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(0, 0, 0, 0.3));
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            padding: 20px 10px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .time-box:hover::before {
+            left: 100%;
+        }
+
+        .time-box:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
+            border-color: var(--primary);
+        }
+
+        .time-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .time-box:nth-child(1) .time-value { color: var(--primary); }
+        .time-box:nth-child(2) .time-value { color: var(--secondary); }
+        .time-box:nth-child(3) .time-value { color: #ff6b6b; }
+        .time-box:nth-child(4) .time-value { color: var(--accent); }
+
+        .time-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Social Links */
+        .social-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50px;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            border-color: var(--secondary);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.1));
+        }
+
+        .social-link svg {
+            width: 22px;
+            height: 22px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover svg {
+            transform: scale(1.2);
+        }
+
+        /* Music Player */
+        .music-section {
+            text-align: center;
+        }
+
+        .music-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 4px;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+
+        .bar {
+            width: 6px;
+            background: linear-gradient(to top, var(--primary), var(--secondary));
+            border-radius: 3px;
+            animation: equalizer 0.8s ease-in-out infinite;
+        }
+
+        .bar:nth-child(1) { animation-delay: 0s; height: 20px; }
+        .bar:nth-child(2) { animation-delay: 0.1s; height: 30px; }
+        .bar:nth-child(3) { animation-delay: 0.2s; height: 25px; }
+        .bar:nth-child(4) { animation-delay: 0.3s; height: 35px; }
+        .bar:nth-child(5) { animation-delay: 0.4s; height: 20px; }
+        .bar:nth-child(6) { animation-delay: 0.5s; height: 28px; }
+        .bar:nth-child(7) { animation-delay: 0.6s; height: 32px; }
+
+        @keyframes equalizer {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1.2); }
+        }
+
+        .audio-wrapper {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+            height: 45px;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        audio::-webkit-media-controls-panel {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+        }
+
+        .next-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .next-btn:hover::before {
+            left: 100%;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .next-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .next-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .next-btn:hover svg {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 1s ease 0.8s both;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .footer-heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .footer-credit {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 15px;
+                padding-top: 30px;
+            }
+
+            .glass-card {
+                padding: 20px;
+                border-radius: 20px;
+            }
+
+            .profile-pic {
+                width: 130px;
+                height: 130px;
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .time-box {
+                padding: 15px 8px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .info-value {
+                text-align: left;
+                max-width: 100%;
+            }
+
+            .social-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tag {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 255, 136, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .loader-text {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1rem;
+            letter-spacing: 3px;
         }
     </style>
 </head>
 <body>
-    <div class="matrix-bg" id="matrixBg"></div>
-    
-    <header>
-        <h1 style="color: #00ff00; text-shadow: 0 0 10px #00ff00;">About Me</h1>
-    </header>
-    
-    <img 
-        src="https://graph.facebook.com/61581957341290/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" 
-        alt="Profile Picture" 
-        class="profile-pic"
-    />
-    
-    <div class="info-card">
-        <p class="info-item"><span class="info-label">Name:</span> <span class="info-value">Eugene Aguilar</span></p>
-        <p class="info-item"><span class="info-label">Age:</span> <span class="info-value"><span id="ageCountdown"></span></span></p>
-        <p class="info-item"><span class="info-label">Location:</span> <span class="info-value">Rosales San Luis, Pangasinan</span></p>
-        
-        <p class="info-item"><span class="info-label">Battery:</span> <span class="info-value"><span id="batteryLevel">Checking...</span></span></p>
-        <p class="info-item"><span class="info-label">IP Address:</span> <span class="info-value"><span id="ipAddress">Loading...</span></span></p>
-        <p class="info-item"><span class="info-label">Favorite Songs:</span> <span class="info-value">Shanti Dope - Iluna, La Ma Wave, Nateman</span></p>
-    </div>
-    
-    <div class="birthday-section">
-        <div class="birthday-title">🎂 Birthday Countdown 🎂</div>
-        <div class="birthday-date">Next Birthday: November 2, <span id="nextYear"></span></div>
-        <div class="countdown" id="countdownText"></div>
-        <div class="time-units">
-            <div class="time-unit">
-                <span id="days">0</span>
-                <label>Days</label>
-            </div>
-            <div class="time-unit">
-                <span id="hours">0</span>
-                <label>Hours</label>
-            </div>
-            <div class="time-unit">
-                <span id="minutes">0</span>
-                <label>Minutes</label>
-            </div>
-            <div class="time-unit">
-                <span id="seconds">0</span>
-                <label>Seconds</label>
-            </div>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">LOADING...</div>
         </div>
     </div>
+
+    <!-- Matrix Background -->
+    <canvas id="matrix-canvas"></canvas>
     
-    <main>
-        <p>Follow me on:</p>
-        <p>
-            <a href="https://www.instagram.com/ur_bbf_eurix?igsh=MXBlYWpoczc3NzZjOA==" target="_blank" rel="noopener noreferrer">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-                Instagram
-            </a>
-        </p>
-        <p>
-            <a href="https://www.facebook.com/share/19id42Y4SM/" target="_blank" rel="noopener noreferrer">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                Facebook
-            </a>
-        </p>
-        <audio controls autoplay loop id="audioPlayer">
-            <source src="" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <br>
-        <button id="nextButton">Next</button>
-    </main>
+    <!-- Gradient Background -->
+    <div class="bg-gradient"></div>
     
-    <footer>
-        <p>Thank you for visiting!</p>
-    </footer>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>About Me</h1>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <span>Online</span>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-wrapper">
+                <div class="profile-glow"></div>
+                <div class="profile-ring"></div>
+                <img 
+                    src="https://graph.facebook.com/61581957341290/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" 
+                    alt="Eugene Aguilar" 
+                    class="profile-pic"
+                    loading="eager"
+                />
+            </div>
+            <h2 class="profile-name">Eugene Aguilar</h2>
+            <p class="profile-handle">@ur_bbf_eurix</p>
+        </section>
+
+        <!-- Personal Info Card -->
+        <div class="glass-card">
+            <div class="card-header">
+                <div class="card-icon">👤</div>
+                <h3 class="card-title">PERSONAL INFO</h3>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Full Name</span>
+                <span class="info-value">Eugene Aguilar</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Age</span>
+                <span class="info-value highlight" id="ageDisplay">--</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Location</span>
+                <span class="info-value">📍 Rosales, San Luis, Pangasinan</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Battery</span>
+                <span class="info-value battery" id="batteryLevel">Checking...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Your IP</span>
+                <span class="info-value ip" id="ipAddress">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Favorite Songs -->
+        <div class="glass-card">
+            <div class="card-header">
+                <div class="card-icon">🎵</div>
+                <h3 class="card-title">FAVORITE SONGS</h3>
+            </div>
+            <div class="tags-container">
+                <span class="tag">🎶 Shanti Dope - Iluna</span>
+                <span class="tag">🎶 La Ma Wave</span>
+                <span class="tag">🎶 Nateman</span>
+            </div>
+        </div>
+
+        <!-- Birthday Countdown -->
+        <div class="glass-card">
+            <div class="countdown-header">
+                <h3 class="countdown-title">🎂 Birthday Countdown 🎂</h3>
+                <p class="countdown-date">Next Birthday: <span id="nextBirthday">November 2, 2025</span></p>
+            </div>
+            <p class="countdown-message" id="countdownMessage">Loading...</p>
+            <div class="countdown-grid">
+                <div class="time-box">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">Mins</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">Secs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="glass-card">
+            <div class="card-header">
+                <div class="card-icon">🔗</div>
+                <h3 class="card-title">CONNECT WITH ME</h3>
+            </div>
+            <div class="social-grid">
+                <a href="https://www.instagram.com/ur_bbf_eurix?igsh=MXBlYWpoczc3NzZjOA==" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Instagram
+                </a>
+                <a href="https://www.facebook.com/share/19id42Y4SM/" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                </a>
+            </div>
+        </div>
+
+        <!-- Music Player -->
+        <div class="glass-card music-section">
+            <div class="card-header" style="justify-content: center;">
+                <div class="card-icon">🎧</div>
+                <h3 class="card-title">MUSIC PLAYER</h3>
+            </div>
+            <div class="music-visualizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="audio-wrapper">
+                <audio controls id="audioPlayer">
+                    <source src="" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+            <button class="next-btn" id="nextButton">
+                <span>Next Track</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">Thank you for visiting! <span class="footer-heart">💚</span></p>
+            <p class="footer-credit">Built with ❤️ by Eugene Aguilar</p>
+        </footer>
+    </div>
 
     <script>
-        // Matrix Effect
-        function createMatrixEffect() {
-            const matrixBg = document.getElementById('matrixBg');
-            const chars = 'Eurix';
-            const numColumns = Math.floor(window.innerWidth / 25);
+        // Hide loader when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#00ff88', '#00d4ff', '#ff00ff'];
             
-            for (let i = 0; i < numColumns; i++) {
-                const column = document.createElement('div');
-                column.className = 'matrix-column';
-                column.style.left = (i * 25) + 'px';
-                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                column.style.animationDelay = (Math.random() * 5) + 's';
-                
-                let text = '';
-                const height = Math.floor(Math.random() * 20 + 10);
-                for (let j = 0; j < height; j++) {
-                    text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
-                }
-                column.innerHTML = text;
-                matrixBg.appendChild(column);
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                container.appendChild(particle);
             }
         }
-        
-        createMatrixEffect();
+        createParticles();
+
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const chars = 'EURIXeurix01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+        const charArray = chars.split('');
+        const fontSize = 16;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                const brightness = Math.random() * 155 + 100;
+                ctx.fillStyle = `rgba(0, ${brightness}, ${brightness * 0.5}, 0.8)`;
+                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 45);
 
         // Birthday Countdown
+        const BIRTH_DATE = new Date(2008, 10, 2); // November 2, 2008
+
         function updateCountdown() {
             const now = new Date();
             const currentYear = now.getFullYear();
             
-            // Birthday is November 2, 2008
-            const birthDate = new Date(2008, 10, 2); // Month is 0-indexed, so 10 = November
-            let birthday = new Date(currentYear, 10, 2);
-            
-            // Calculate exact age
-            let age = currentYear - 2008;
-            
-            // If birthday hasn't happened yet this year, subtract 1
+            // Calculate age
+            let age = currentYear - BIRTH_DATE.getFullYear();
             if (now.getMonth() < 10 || (now.getMonth() === 10 && now.getDate() < 2)) {
                 age--;
             }
+            document.getElementById('ageDisplay').textContent = age + ' years old';
             
-            document.getElementById('ageCountdown').textContent = age;
-            
-            // If birthday has passed this year, target next year
-            if (now > birthday) {
-                birthday = new Date(currentYear + 1, 10, 2);
+            // Calculate next birthday
+            let nextBirthday = new Date(currentYear, 10, 2);
+            if (now > nextBirthday) {
+                nextBirthday = new Date(currentYear + 1, 10, 2);
             }
             
-            document.getElementById('nextYear').textContent = birthday.getFullYear();
+            document.getElementById('nextBirthday').textContent = 
+                `November 2, ${nextBirthday.getFullYear()}`;
             
-            const diff = birthday - now;
+            const diff = nextBirthday - now;
             
             if (diff <= 0) {
-                document.getElementById('countdownText').textContent = '🎉 Happy Birthday! 🎉';
-                document.getElementById('days').textContent = '0';
-                document.getElementById('hours').textContent = '0';
-                document.getElementById('minutes').textContent = '0';
-                document.getElementById('seconds').textContent = '0';
+                document.getElementById('countdownMessage').textContent = '🎉 Happy Birthday! 🎉';
+                ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
+                    document.getElementById(id).textContent = '00';
+                });
                 return;
             }
             
@@ -328,101 +1046,77 @@
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
             
-            if (days === 0) {
-                document.getElementById('countdownText').textContent = 'Birthday is TODAY! 🎂';
-            } else if (days === 1) {
-                document.getElementById('countdownText').textContent = 'Birthday is TOMORROW! 🎈';
-            } else {
-                document.getElementById('countdownText').textContent = `${days} days until birthday!`;
-            }
+            let message = `${days} days until birthday!`;
+            if (days === 0) message = '🎂 Birthday is TODAY! 🎂';
+            else if (days === 1) message = '🎈 Birthday is TOMORROW! 🎈';
+            
+            document.getElementById('countdownMessage').textContent = message;
         }
         
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Link Click Tracking
-        document.querySelectorAll('a[href^="http"]').forEach(link => {
-            link.addEventListener('click', async function(e) {
-                try {
-                    await fetch('/track-click', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            url: this.href,
-                            timestamp: new Date().toISOString()
-                        })
-                    });
-                } catch (error) {
-                    console.error('Tracking error:', error);
-                }
-            });
-        });
-
         // Battery API
         if ('getBattery' in navigator) {
-            navigator.getBattery().then(function(battery) {
-                function updateBatteryStatus() {
+            navigator.getBattery().then(battery => {
+                function updateBattery() {
                     const level = Math.floor(battery.level * 100);
-                    const charging = battery.charging ? ' (Charging)' : '';
-                    document.getElementById('batteryLevel').textContent = level + '%' + charging;
+                    const charging = battery.charging ? ' ⚡' : '';
+                    const icon = level > 80 ? '🔋' : level > 20 ? '🔋' : '🪫';
+                    document.getElementById('batteryLevel').textContent = `${icon} ${level}%${charging}`;
                 }
-                
-                updateBatteryStatus();
-                battery.addEventListener('levelchange', updateBatteryStatus);
-                battery.addEventListener('chargingchange', updateBatteryStatus);
+                updateBattery();
+                battery.addEventListener('levelchange', updateBattery);
+                battery.addEventListener('chargingchange', updateBattery);
             });
         } else {
-            document.getElementById('batteryLevel').textContent = 'Not available';
+            document.getElementById('batteryLevel').textContent = '❌ Not supported';
         }
 
-        // Fetch IP Address
+        // IP Address
         fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 document.getElementById('ipAddress').textContent = data.ip;
             })
-            .catch(error => {
-                console.error('Error fetching IP:', error);
-                document.getElementById('ipAddress').textContent = 'Unable to fetch';
+            .catch(() => {
+                document.getElementById('ipAddress').textContent = 'Unavailable';
             });
 
         // Music Player
-        const audioPlayer = document.getElementById("audioPlayer");
-        const nextButton = document.getElementById("nextButton");
+        const audioPlayer = document.getElementById('audioPlayer');
+        const nextButton = document.getElementById('nextButton');
 
         async function playRandomMusic() {
             try {
                 const response = await fetch('/random-music');
                 if (response.ok) {
                     const data = await response.json();
-                    const audioUrl = data.url;
-
-                    if (audioUrl) {
-                        const source = audioPlayer.querySelector("source");
-                        source.src = audioUrl;
+                    if (data.url) {
+                        audioPlayer.querySelector('source').src = data.url;
                         audioPlayer.load();
-                        audioPlayer.play().catch(e => console.error("Error playing audio:", e));
-                    } else {
-                        console.error("Audio URL not found in the response.");
+                        audioPlayer.play().catch(() => {});
                     }
-                } else {
-                    console.error("Failed to fetch audio:", response.status, response.statusText);
                 }
-            } catch (error) {
-                console.error("Error fetching audio:", error);
+            } catch (e) {
+                console.log('Music API not available');
             }
         }
 
         playRandomMusic();
-        nextButton.addEventListener("click", playRandomMusic);
+        nextButton.addEventListener('click', playRandomMusic);
         audioPlayer.addEventListener('ended', playRandomMusic);
+
+        // Resize matrix on window resize
+        window.addEventListener('resize', () => {
+            columns = Math.floor(canvas.width / fontSize);
+            drops = Array(columns).fill(1);
+        });
     </script>
 </body>
 </html>
